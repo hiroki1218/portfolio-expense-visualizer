@@ -1,4 +1,4 @@
-package jp.levtech.rookie.tutorial;
+package jp.levtech.rookie.portfolio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package jp.levtech.rookie.tutorial;
+package jp.levtech.rookie.portfolio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
