@@ -6,7 +6,7 @@ plugins {
 
 group = 'jp.levtech.rookie'
 version = '0.0.1-SNAPSHOT'
-description = 'Spring Bootのチュートリアル'
+description = '家計簿_支出の可視化'
 
 java {
 	toolchain {
@@ -25,11 +25,13 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'   //DB（PostgreSQL）とやりとりするため。
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  //HTML 画面（テンプレートエンジン）を使うため。
+	implementation 'org.springframework.boot:spring-boot-starter-validation' //バリデーションに使用。
+	implementation 'org.springframework.boot:spring-boot-starter-web'        //Controller やファイルアップロード機能（Multipart）が使える。
+	implementation 'org.apache.commons:commons-csv:1.10.0'                   //CSV を読むためのライブラリ
+	implementation 'org.postgresql:postgresql:42.7.3'
+	compileOnly 'org.projectlombok:lombok'                                   //Getter/Setter 省略
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
