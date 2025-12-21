@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.levtech.rookie.portfolio.repository.mufg.mapper.MufgBankMapper">
+
+<insert id="batchInsert">
+	INSERT INTO mufg_bank_transaction
+		(transaction_date, summary, detail, withdrawal_amount, deposit_amount, balance, category_id, created_at)
+	SELECT
+		src.transaction_date,
+		src.summary,
+		src.detail,
+		src.withdrawal_amount,
+		src.deposit_amount,
+		src.balance,
+		COALESCE(dm.category_id, sm.category_id, uc.id) AS category_id,
+		src.created_at
+	FROM (
+		VALUES
+		<foreach collection="entities" item="e" separator=",">
+			(
+			#{e.transactionDate},
+			#{e.summary},
+			#{e.detail},
+			#{e.withdrawalAmount},
+			#{e.depositAmount},
+			#{e.balance},
+			#{e.createdAt}
+			)
+		</foreach>
+	) AS src(
+		transaction_date,
+		summary,
+		detail,
+		withdrawal_amount,
+		deposit_amount,
+		balance,
+		created_at
+		)
+	LEFT JOIN mufg_bank_detail_master dm
+		ON dm.detail_name = src.detail
+	LEFT JOIN mufg_bank_summary_master sm
+		ON sm.summary_name = src.summary
+	CROSS JOIN (
+		SELECT id
+		FROM  category_master
+		WHERE category_name = '未分類'
+		LIMIT 1
+	) uc
+	ON CONFLICT DO NOTHING
+</insert>
+
+
+<select id="sumSpending" resultType="java.math.BigDecimal">
+	SELECT SUM(withdrawal_amount)
+	FROM mufg_bank_transaction
+	WHERE withdrawal_amount > 0
+	AND transaction_date BETWEEN #{start} AND #{end}
+</select>
+
+
+</mapper>

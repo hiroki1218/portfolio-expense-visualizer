@@ -2,44 +2,91 @@ package jp.levtech.rookie.portfolio.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model; // ★これを追加
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import jp.levtech.rookie.portfolio.dto.CreditCardImportDto;
-import jp.levtech.rookie.portfolio.service.CreditCardCsvImportService;
+import jp.levtech.rookie.portfolio.service.csv.ImportCsvService;
+import jp.levtech.rookie.portfolio.service.csv.common.CsvFormatDetector;
+import jp.levtech.rookie.portfolio.service.csv.common.CsvReader;
+import jp.levtech.rookie.portfolio.service.csv.enums.CsvFormat;
 
-//http://localhost:8080/csv/import
-
-@Controller                 // ① このクラスはWebの入り口ですよ、という宣言
-@RequestMapping("/csv")     // ② 全てのURLの先頭に /csv を付ける
-
+@Controller
+@RequestMapping("/csv")
 public class CsvImportController {
-
-    @Autowired
-    private CreditCardCsvImportService creditCardCsvImportService;
-    // ③ Service をDI（Springが自動でインスタンスを入れてくれる）
-    //    → ControllerはServiceを“呼ぶだけ”
-
-    @GetMapping("/import")
-    public String ImportForm() {
-        // ④ ただ画面(import.html)を返すだけ
-        return "import";
-    }
-
-    @PostMapping(path = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseBody
-    public List<CreditCardImportDto> importCsv(@RequestParam("file") MultipartFile file) throws Exception {
-
-        // ⑤ CSVファイルを受け取り、Serviceに丸投げ
-        return creditCardCsvImportService.importCreditCardCsv(file);
-
-        // ⑥ Serviceの実行結果（DTOのリスト）をJSONとして返す
-    }
+	
+	private final ImportCsvService importCsvService;
+	private final CsvReader csvReader;
+	private final CsvFormatDetector csvFormatDetector;
+	
+	public CsvImportController(
+			ImportCsvService importCsvService,
+			CsvReader csvReader,
+			CsvFormatDetector csvFormatDetector) {
+		this.importCsvService = importCsvService;
+		this.csvReader = csvReader;
+		this.csvFormatDetector = csvFormatDetector;
+	}
+	
+	// 1. フォーム表示
+	@GetMapping("/import")
+	public String form() {
+		return "import";
+	}
+	
+	// 2. ファイル受け取り→結果メッセージを画面に返す
+	@PostMapping("/import")
+	public String importCsv(@RequestParam("files") MultipartFile[] files,
+			Model model) { // ★ Model を引数に追加
+		
+		if (files == null || files.length != 2) {
+			model.addAttribute("statusMessage",
+					"エラー：CSV ファイルは必ず 2 つアップロードしてください。");
+			return "import";
+		}
+		
+		MultipartFile bankCsv = null;
+		MultipartFile creditCsv = null;
+		
+		for (MultipartFile file : files) {
+			try {
+				
+				List<String> header = csvReader.readHeader(file);
+				CsvFormat format = csvFormatDetector.detect(header);
+				
+				if (format == CsvFormat.BANK_MUFG) {
+					bankCsv = file;
+				} else if (format == CsvFormat.CREDIT_MUFG) {
+					creditCsv = file;
+				}
+			} catch (Exception e) {
+				model.addAttribute("statusMessage",
+						"エラー：対応していない CSV → " + file.getOriginalFilename());
+				return "import";
+			}
+		}
+		
+		if (bankCsv == null || creditCsv == null) {
+			model.addAttribute("statusMessage",
+					"エラー：銀行 CSV とクレカ CSV の両方をアップロードしてください。");
+			return "import";
+		}
+		
+		try {
+			importCsvService.importCsv(bankCsv);
+			importCsvService.importCsv(creditCsv);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("statusMessage",
+					"エラー：CSV の取り込みに失敗しました。");
+			return "import";
+		}
+		
+		model.addAttribute("statusMessage", "正常に取り込みが完了しました。");
+		return "import";
+	}
 }

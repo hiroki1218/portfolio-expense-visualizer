@@ -1,0 +1,95 @@
+package jp.levtech.rookie.portfolio.service.csv;
+
+import java.util.List;
+
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import jp.levtech.rookie.portfolio.repository.mufg.MufgBankRepository;
+import jp.levtech.rookie.portfolio.repository.mufg.MufgCreditRepository;
+import jp.levtech.rookie.portfolio.service.csv.common.CsvFormatDetector;
+import jp.levtech.rookie.portfolio.service.csv.common.CsvReader;
+import jp.levtech.rookie.portfolio.service.csv.converter.bank.MufgBankConverter;
+import jp.levtech.rookie.portfolio.service.csv.converter.credit.MufgCreditConverter;
+import jp.levtech.rookie.portfolio.service.csv.enums.CsvFormat;
+import jp.levtech.rookie.portfolio.service.csv.parser.bank.MufgBankParser;
+import jp.levtech.rookie.portfolio.service.csv.parser.credit.MufgCreditParser;
+
+@Service
+public class ImportCsvServiceImpl implements ImportCsvService {
+	
+	private final CsvReader csvReader;
+	private final CsvFormatDetector csvFormatDetector;
+	private final MufgBankParser bankParser;
+	private final MufgCreditParser creditParser;
+	private final MufgBankConverter bankConverter;
+	private final MufgCreditConverter creditConverter;
+	private final MufgBankRepository bankRepository;
+	private final MufgCreditRepository creditRepository;
+	
+	public ImportCsvServiceImpl(
+			CsvReader csvReader,
+			CsvFormatDetector csvFormatDetector,
+			MufgBankParser bankParser,
+			MufgCreditParser creditParser,
+			MufgBankConverter bankConverter,
+			MufgCreditConverter creditConverter,
+			MufgBankRepository bankRepository,
+			MufgCreditRepository creditRepository) {
+		this.csvReader = csvReader;
+		this.csvFormatDetector = csvFormatDetector;
+		this.bankParser = bankParser;
+		this.creditParser = creditParser;
+		this.bankConverter = bankConverter;
+		this.creditConverter = creditConverter;
+		this.bankRepository = bankRepository;
+		this.creditRepository = creditRepository;
+	}
+	
+	@Override
+	public void importCsv(MultipartFile file) {
+		
+		try {
+			// 1. ヘッダー判定
+			List<String> header = csvReader.readHeader(file);
+			CsvFormat format = csvFormatDetector.detect(header);
+			
+			// 2. データ行読み込み
+			Iterable<CSVRecord> records = csvReader.read(file);
+			
+			// 3. フォーマットごとの処理
+			switch (format) {
+			
+			// MUFG 銀行 CSV
+			case BANK_MUFG -> {
+				// DTO にパース
+				var dtoList = bankParser.parse(records);
+				
+				// DTO → Entity
+				var entityList = dtoList.stream()
+						.map(bankConverter::toEntity)
+						.toList();
+				
+				// DB 保存
+				bankRepository.saveAll(entityList);
+			}
+			
+			// MUFG クレカ CSV
+			case CREDIT_MUFG -> {
+				var dtoList = creditParser.parse(records);
+				
+				var entityList = dtoList.stream()
+						.map(creditConverter::toEntity)
+						.toList();
+				
+				creditRepository.saveAll(entityList);
+			}
+			}
+			
+		} catch (Exception e) {
+			// 想定外エラー時のログ・例外
+			throw new RuntimeException("CSV 取り込み中にエラーが発生しました", e);
+		}
+	}
+}

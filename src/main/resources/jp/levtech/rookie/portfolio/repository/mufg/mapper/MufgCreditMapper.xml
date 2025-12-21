@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.levtech.rookie.portfolio.repository.mufg.mapper.MufgCreditMapper">
+
+<insert id="batchInsert">
+	INSERT INTO mufg_credit_transaction
+		(confirmation_info, payment_date, merchant_name, usage_date, amount_yen, category_id, created_at)
+	SELECT
+		src.confirmation_info,
+		src.payment_date,
+		src.merchant_name,
+		src.usage_date,
+		src.amount_yen,
+		COALESCE(mm.category_id, uc.id),
+		src.created_at
+	FROM (
+		VALUES
+		<foreach collection="entities" item="e" separator=",">
+			(
+			#{e.confirmationInfo},
+			#{e.paymentDate},
+			#{e.merchantName},
+			#{e.usageDate},
+			#{e.amountYen},
+			#{e.createdAt}
+			)
+		</foreach>
+	) AS src(
+		confirmation_info,
+		payment_date,
+		merchant_name,
+		usage_date,
+		amount_yen,
+		created_at
+	)
+	LEFT JOIN mufg_credit_merchant_master mm
+		ON mm.merchant_name = src.merchant_name
+	CROSS JOIN (
+		SELECT id
+		FROM category_master
+		WHERE category_name = '未分類'
+		LIMIT 1
+	) uc
+	ON CONFLICT DO NOTHING
+</insert>
+
+<select id="sumSpending" resultType="java.math.BigDecimal">
+	SELECT SUM(amount_yen)
+	FROM mufg_credit_transaction
+	WHERE usage_date BETWEEN #{start} AND #{end}
+</select>
+
+
+</mapper>

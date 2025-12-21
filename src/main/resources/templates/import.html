@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>CSVインポート</title>
@@ -7,10 +7,34 @@
 <body>
 <h1>CSVファイル取り込み</h1>
 
-<form method="post" action="/csv/import" enctype="multipart/form-data">
-    <input type="file" name="file" accept=".csv">
+<form th:action="@{/csv/import}" method="post" enctype="multipart/form-data">
+
+    <input id="csvFiles" type="file" name="files" accept=".csv" multiple>
     <button type="submit">アップロード</button>
+
 </form>
+
+<p>
+    ステータス：
+    <span th:if="${statusMessage != null}"
+          th:text="${statusMessage}">ここにメッセージ</span>
+    <span th:if="${statusMessage == null}">
+        未実行
+    </span>
+</p>
+
+<p>
+    <a href="/">ホームに戻る</a>
+</p>
+
+<script>
+    document.getElementById('csvFiles').addEventListener('change', function (e) {
+        if (this.files.length > 2) {
+            alert('一度にアップロードできるファイルは2つまでです。');
+            this.value = ''; // 選択をリセット
+        }
+    });
+</script>
 
 </body>
 </html>

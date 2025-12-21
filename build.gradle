@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation' //バリデーションに使用。
 	implementation 'org.springframework.boot:spring-boot-starter-web'        //Controller やファイルアップロード機能（Multipart）が使える。
 	implementation 'org.apache.commons:commons-csv:1.10.0'                   //CSV を読むためのライブラリ
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
 	implementation 'org.postgresql:postgresql:42.7.3'
 	compileOnly 'org.projectlombok:lombok'                                   //Getter/Setter 省略
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
