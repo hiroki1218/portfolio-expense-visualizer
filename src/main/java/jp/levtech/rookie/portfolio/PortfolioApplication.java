@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("jp.levtech.rookie.portfolio.repository.mufg.mapper")
+@MapperScan("jp.levtech.rookie.portfolio.repository")
 public class PortfolioApplication {
 	
 	public static void main(String[] args) {

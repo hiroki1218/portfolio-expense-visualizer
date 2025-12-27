@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.levtech.rookie.portfolio.repository.master.CategoryMasterMapper">
+
+<select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
+	SELECT
+		id,
+		category_name AS name
+	FROM category_master
+	ORDER BY id
+	</select>
+</mapper>

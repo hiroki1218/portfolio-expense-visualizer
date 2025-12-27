@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.levtech.rookie.portfolio.repository.master.DetailMasterMapper">
+
+<select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
+	SELECT
+		dm.id,
+		dm.detail_name AS name,
+		dm.category_id AS categoryId,
+		cm.category_name AS categoryName
+	FROM mufg_bank_detail_master dm
+	LEFT JOIN category_master cm
+		ON cm.id = dm.category_id
+	ORDER BY dm.id
+</select>
+
+</mapper>

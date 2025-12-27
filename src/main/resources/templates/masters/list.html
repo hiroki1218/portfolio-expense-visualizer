@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Master List</title>
+</head>
+<body>
+
+<h1 th:text="${type.label}"></h1>
+
+<p><a th:href="@{/masters}">マスタ一覧へ戻る</a></p>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th th:text="${type.type} == 'category' ? 'カテゴリ名':'名称'"></th>
+      <th th:if="${type.type} != 'category' "th:text="'カテゴリ名'"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="r : ${rows}">
+      <td th:text="${r.id}"></td>
+      <td th:text="${r.name}"></td>
+      <td th:if="${type.type} != 'category'" th:text="${r.categoryName}">名</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

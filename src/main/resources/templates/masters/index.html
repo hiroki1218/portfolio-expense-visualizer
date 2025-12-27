@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>マスタ管理</h1>
+<ul>
+  <li th:each="t : ${types}">
+    <a th:href="@{/masters/{type}(type=${t.type})}"
+       th:text="${t.label}">master</a>
+  </li>
+</ul>
+<p>
+    <a href="/">ホームに戻る</a>
+</p>
+</body>
+</html>
