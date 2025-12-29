@@ -6,6 +6,7 @@
 <mapper namespace="jp.levtech.rookie.portfolio.repository.master.DetailMasterMapper">
 
 <select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
+
 	SELECT
 		dm.id,
 		dm.detail_name AS name,
@@ -15,6 +16,20 @@
 	LEFT JOIN category_master cm
 		ON cm.id = dm.category_id
 	ORDER BY dm.category_id
-</select>
+	</select>
+
+	<update id="update">
+		UPDATE mufg_bank_detail_master
+		SET category_id = ${categoryId}
+		WHERE id =#{id}
+	</update>
+
+	<select id="findById">
+		SELECT
+			id,
+			category_id AS categoryId
+		FROM mufg_bank_detail_master
+		WHERE id = #{id}
+	</select>
 
 </mapper>

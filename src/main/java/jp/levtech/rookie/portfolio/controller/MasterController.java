@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.levtech.rookie.portfolio.dto.MasterDto;
 import jp.levtech.rookie.portfolio.master.MasterType;
@@ -45,7 +47,16 @@ public class MasterController {
 	}
 	
 	@PostMapping("{type}/update")
-	public String update(@PathVariable Long id) {
-		return null;
+	public String update(@PathVariable String type, @RequestParam Long id, @RequestParam Long categoryId,
+			RedirectAttributes redirectAttributes) {
+		
+		MasterType masterType = MasterType.fromPath(type);
+		
+		try {
+			masterService.update(masterType, id, categoryId);
+		} catch (IllegalArgumentException e) {
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+		}
+		return "redirect:/masters/" + masterType.getPath();
 	}
 }

@@ -1,6 +1,7 @@
 package jp.levtech.rookie.portfolio.service.master;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class MasterServiceImpl implements MasterService {
 		this.merchantMasterMapper = merchantMasterMapper;
 	}
 	
+	//一覧取得
 	@Override
 	public List<MasterDto> list(MasterType type) {
 		return switch (type) {
@@ -40,4 +42,30 @@ public class MasterServiceImpl implements MasterService {
 		};
 	}
 	
+	//カテゴリ更新
+	@Override
+	public void update(MasterType type, Long id, Long categoryId) {
+		
+		if (id == null || categoryId == null) {
+			throw new IllegalArgumentException("更新対象が不正です");
+		}
+		
+		MasterDto current = switch (type) {
+		case BANK_SUMMARY -> summaryMasterMapper.findById(id);
+		case BANK_DETAIL -> detailMasterMapper.findById(id);
+		case CREDIT_MERCHANT -> merchantMasterMapper.findById(id);
+		default -> throw new IllegalArgumentException("更新対象外です");
+		};
+		
+		if (Objects.equals(categoryId, current.getCategoryId())) {
+			throw new IllegalArgumentException("更新内容が既存値と同一です");
+		}
+		
+		switch (type) {
+		case BANK_SUMMARY -> summaryMasterMapper.update(id, categoryId);
+		case BANK_DETAIL -> detailMasterMapper.update(id, categoryId);
+		case CREDIT_MERCHANT -> merchantMasterMapper.update(id, categoryId);
+		case CATEGORY -> throw new IllegalArgumentException("カテゴリは更新対象外です");
+		}
+	}
 }

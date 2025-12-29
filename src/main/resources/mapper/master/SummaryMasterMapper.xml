@@ -16,4 +16,19 @@
 		ON cm.id = sm.category_id
 	ORDER BY sm.category_id
 	</select>
+
+	<update id="update">
+		UPDATE mufg_bank_summary_master
+		SET category_id = ${categoryId}
+		WHERE id = #{id}
+	</update>
+
+	<select id="findById">
+		SELECT
+			id,
+			category_id AS categoryId
+		FROM mufg_bank_summary_master
+		WHERE id = #{id}
+	</select>
+
 </mapper>
