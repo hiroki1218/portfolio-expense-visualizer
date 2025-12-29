@@ -14,6 +14,6 @@
 	FROM mufg_bank_summary_master sm
 	LEFT JOIN category_master cm
 		ON cm.id = sm.category_id
-	ORDER BY sm.id
+	ORDER BY sm.category_id
 	</select>
 </mapper>

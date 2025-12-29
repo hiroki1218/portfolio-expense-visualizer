@@ -21,9 +21,9 @@ public enum MasterType {
 			throw new IllegalArgumentException("pathが未指定です。");
 		}
 		
-		for (MasterType table : values()) {
-			if (table.path.equals(path)) {
-				return table;
+		for (MasterType type : values()) {
+			if (type.path.equals(path)) {
+				return type;
 			}
 		}
 		throw new IllegalArgumentException("不正なpathです:" + path);

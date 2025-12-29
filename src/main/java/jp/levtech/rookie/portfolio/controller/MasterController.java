@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.levtech.rookie.portfolio.dto.MasterDto;
@@ -28,17 +29,23 @@ public class MasterController {
 		return "masters/index";
 	}
 	
-	@GetMapping("{type}")
+	@GetMapping("/{type}")
 	public String list(@PathVariable("type") String type, Model model) {
 		
 		MasterType masterType = MasterType.fromPath(type);
 		List<MasterDto> rows = masterService.list(masterType);
+		List<MasterDto> categories = masterService.list(MasterType.CATEGORY);
 		
 		model.addAttribute("type", masterType);
 		model.addAttribute("rows", rows);
+		model.addAttribute("categories", categories);
 		
 		return "masters/list";
 		
 	}
 	
+	@PostMapping("{type}/update")
+	public String update(@PathVariable Long id) {
+		return null;
+	}
 }

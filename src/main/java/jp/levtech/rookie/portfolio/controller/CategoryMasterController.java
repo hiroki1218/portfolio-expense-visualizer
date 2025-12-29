@@ -70,7 +70,6 @@ public class CategoryMasterController {
 			RedirectAttributes redirectAttributes) {
 		try {
 			categoryMasterService.delete(id);
-			redirectAttributes.addFlashAttribute("successMessage", "削除しました");
 		} catch (IllegalArgumentException e) {
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 		}
