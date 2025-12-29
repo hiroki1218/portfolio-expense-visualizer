@@ -8,7 +8,7 @@
 <h1>マスタ管理</h1>
 <ul>
   <li th:each="t : ${types}">
-    <a th:href="@{/masters/{type}(type=${t.type})}"
+    <a th:href="@{/masters/{type}(type=${t.path})}"
        th:text="${t.label}">master</a>
   </li>
 </ul>

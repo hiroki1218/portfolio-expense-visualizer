@@ -9,23 +9,46 @@
 <h1 th:text="${type.label}"></h1>
 
 <p><a th:href="@{/masters}">マスタ一覧へ戻る</a></p>
+<a th:href="@{/masters/category/new}">新規カテゴリ追加</a>
 
 <table border="1">
   <thead>
     <tr>
       <th>id</th>
-      <th th:text="${type.type} == 'category' ? 'カテゴリ名':'名称'"></th>
-      <th th:if="${type.type} != 'category' "th:text="'カテゴリ名'"></th>
+      <th th:text="${type.path} == 'category' ? 'カテゴリ名':'名称'"></th>
+      <th th:if="${type.path} != 'category' "th:text="'カテゴリ名'"></th>
+      <th th:if="${type.path} == 'category'" th:text="'操作'"></th>
     </tr>
   </thead>
   <tbody>
-    <tr th:each="r : ${rows}">
-      <td th:text="${r.id}"></td>
+    <tr th:each="r, start : ${rows}">
+      <td th:text="${start.count}"></td>
       <td th:text="${r.name}"></td>
-      <td th:if="${type.type} != 'category'" th:text="${r.categoryName}">名</td>
+      <td th:if="${type.path} != 'category'" th:text="${r.categoryName}"></td>
+	  <td th:if="${type.path} == 'category'"><a th:href="@{/masters/category/{id}/edit(id=${r.id})}">編集</a> /
+      <form th:action="@{/masters/category/{id}/delete(id=${r.id})}"
+      	method="post"
+        style="display:inline">
+      <button type="submit"
+        style="all:unset; cursor:pointer; color:blue; text-decoration:underline;"
+        onclick="return confirm('削除しますか？')">削除</button>
+      </form>
+	  </td>
     </tr>
   </tbody>
 </table>
+
+<!-- 成功メッセージ -->
+<p th:if="${successMessage}"
+   th:text="${successMessage}"
+   style="color:green">
+</p>
+
+<!-- エラーメッセージ -->
+<p th:if="${errorMessage}"
+   th:text="${errorMessage}"
+   style="color:red">
+</p>
 
 </body>
 </html>

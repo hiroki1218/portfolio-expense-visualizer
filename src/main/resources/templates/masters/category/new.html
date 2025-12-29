@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form method="post" th:action="@{/masters/category/create}">
+    <input type="text" name="categoryName">
+    <button type="submit">登録</button>
+</form>
+
+<p th:if="${successMessage}" th:text="${successMessage}"></p>
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+<p><a th:href="@{/masters/category}">カテゴリ一覧へ戻る</a></p>
+
+</body>
+</html>

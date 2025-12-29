@@ -5,11 +5,37 @@
 
 <mapper namespace="jp.levtech.rookie.portfolio.repository.master.CategoryMasterMapper">
 
-<select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
+	<select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
 	SELECT
 		id,
 		category_name AS name
 	FROM category_master
+	WHERE category_name != '未分類'
 	ORDER BY id
 	</select>
+
+	<insert id="insert">
+	INSERT INTO category_master(category_name)
+	VALUES(#{categoryName})
+	</insert>
+
+	<update id="update">
+		UPDATE category_master
+		SET category_name = #{categoryName}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM category_master
+		WHERE id = #{id}
+	</delete>
+
+	<select id="findById">
+		SELECT
+			id,
+			category_name AS name
+		FROM category_master
+		WHERE id = #{id}
+	</select>
+
 </mapper>
