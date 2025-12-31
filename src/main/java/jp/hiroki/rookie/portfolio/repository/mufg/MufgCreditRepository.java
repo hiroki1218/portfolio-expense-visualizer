@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import jp.hiroki.rookie.portfolio.entity.mufg.MufgCreditTransaction;
+import jp.hiroki.rookie.portfolio.dto.mufg.MufgCreditTransactionDtl;
 import jp.hiroki.rookie.portfolio.repository.mufg.mapper.MufgCreditMapper;
 
 @Repository
@@ -16,7 +16,7 @@ public class MufgCreditRepository {
 	}
 	
 	//DB保存
-	public void saveAll(List<MufgCreditTransaction> entities) {
+	public void saveAll(List<MufgCreditTransactionDtl> entities) {
 		mapper.batchInsert(entities);
 	}
 	

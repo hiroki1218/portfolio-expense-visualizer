@@ -5,12 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.hiroki.rookie.portfolio.entity.mufg.MufgCreditTransaction;
+import jp.hiroki.rookie.portfolio.dto.mufg.MufgCreditTransactionDtl;
 
 @Mapper
 public interface MufgCreditMapper {
 	
 	// 複数件保存（CSV用）
-	void batchInsert(@Param("entities") List<MufgCreditTransaction> entities);
+	void batchInsert(@Param("entities") List<MufgCreditTransactionDtl> entities);
 	
 }

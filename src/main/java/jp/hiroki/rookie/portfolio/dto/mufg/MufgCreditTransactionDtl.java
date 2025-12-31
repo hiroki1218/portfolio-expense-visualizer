@@ -1,4 +1,4 @@
-package jp.hiroki.rookie.portfolio.entity.mufg;
+package jp.hiroki.rookie.portfolio.dto.mufg;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class MufgCreditTransaction {
+public class MufgCreditTransactionDtl {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,19 +5,19 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 import jp.hiroki.rookie.portfolio.dto.mufg.MufgBankCsvDto;
-import jp.hiroki.rookie.portfolio.entity.mufg.MufgBankTransaction;
+import jp.hiroki.rookie.portfolio.dto.mufg.MufgBankTransactionDto;
 import jp.hiroki.rookie.portfolio.service.csv.common.Utility;
 import jp.hiroki.rookie.portfolio.service.csv.converter.CsvConverter;
 
 @Component
-public class MufgBankConverter implements CsvConverter<MufgBankCsvDto, MufgBankTransaction> {
+public class MufgBankConverter implements CsvConverter<MufgBankCsvDto, MufgBankTransactionDto> {
 	
 	private static final long UNCLASSIFIED_CATEGORY_ID = 15L;
 	
 	@Override
-	public MufgBankTransaction toEntity(MufgBankCsvDto dto) {
+	public MufgBankTransactionDto toEntity(MufgBankCsvDto dto) {
 		
-		MufgBankTransaction entity = new MufgBankTransaction();
+		MufgBankTransactionDto entity = new MufgBankTransactionDto();
 		
 		entity.setTransactionDate(Utility.normalizeDate(dto.getTransactionDate()));
 		entity.setSummary(dto.getSummary());
