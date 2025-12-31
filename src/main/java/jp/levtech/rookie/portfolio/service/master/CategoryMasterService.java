@@ -5,7 +5,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import jp.levtech.rookie.portfolio.dto.MasterDto;
+import jp.levtech.rookie.portfolio.dto.master.MasterDto;
 import jp.levtech.rookie.portfolio.repository.master.CategoryMasterMapper;
 
 @Service

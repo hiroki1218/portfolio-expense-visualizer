@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
-import jp.levtech.rookie.portfolio.dto.MasterDto;
+import jp.levtech.rookie.portfolio.dto.master.MasterDto;
 import jp.levtech.rookie.portfolio.master.MasterType;
 import jp.levtech.rookie.portfolio.repository.master.CategoryMasterMapper;
 import jp.levtech.rookie.portfolio.repository.master.DetailMasterMapper;

@@ -7,7 +7,7 @@ import java.time.YearMonth;
 
 import org.springframework.stereotype.Service;
 
-import jp.levtech.rookie.portfolio.dto.MonthlySummaryDto;
+import jp.levtech.rookie.portfolio.dto.summary.MonthlySummaryDto;
 import jp.levtech.rookie.portfolio.repository.mufg.MufgBankRepository;
 
 @Service

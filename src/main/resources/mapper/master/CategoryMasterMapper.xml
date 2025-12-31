@@ -5,7 +5,7 @@
 
 <mapper namespace="jp.levtech.rookie.portfolio.repository.master.CategoryMasterMapper">
 
-	<select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
+	<select id="list" resultType="jp.levtech.rookie.portfolio.dto.master.MasterDto">
 	SELECT
 		id,
 		category_name AS name

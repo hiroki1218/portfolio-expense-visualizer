@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jp.levtech.rookie.portfolio.dto.MasterDto;
+import jp.levtech.rookie.portfolio.dto.master.MasterDto;
 import jp.levtech.rookie.portfolio.service.master.CategoryMasterService;
 
 @Controller

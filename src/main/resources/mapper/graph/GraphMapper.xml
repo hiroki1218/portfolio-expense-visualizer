@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.levtech.rookie.portfolio.repository.graph.GraphMapper">
+
+	<select id="categoryAmounts" resultType="jp.levtech.rookie.portfolio.dto.graph.CategoryAmountDto">
+		SELECT
+			cm.category_name AS categoryName,
+			SUM(total.amount) AS totalAmount
+		FROM(
+			-- 銀行支出
+			SELECT
+				category_id,
+				withdrawal_amount AS amount,
+				transaction_date
+			FROM mufg_bank_transaction
+			WHERE withdrawal_amount IS NOT NULL AND summary != '口座振替７'
+			UNION ALL
+			-- クレカ支出
+			SELECT
+				category_id,
+				amount_yen AS amount,
+				payment_date AS transaction_date
+			FROM mufg_credit_transaction
+			) total
+		JOIN category_master cm
+			ON cm.id = total.category_id
+		WHERE  total.transaction_date BETWEEN #{fromDate} AND #{toDate}
+		GROUP BY cm.category_name
+		ORDER BY totalAmount DESC
+	</select>
+
+</mapper>

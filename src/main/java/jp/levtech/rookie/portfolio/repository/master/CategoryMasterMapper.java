@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.levtech.rookie.portfolio.dto.MasterDto;
+import jp.levtech.rookie.portfolio.dto.master.MasterDto;
 
 @Mapper
 public interface CategoryMasterMapper {

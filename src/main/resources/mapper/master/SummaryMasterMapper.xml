@@ -5,7 +5,7 @@
 
 <mapper namespace="jp.levtech.rookie.portfolio.repository.master.SummaryMasterMapper">
 
-	<select id="list" resultType="jp.levtech.rookie.portfolio.dto.MasterDto">
+	<select id="list" resultType="jp.levtech.rookie.portfolio.dto.master.MasterDto">
 	SELECT
 		sm.id,
 		sm.summary_name AS name,

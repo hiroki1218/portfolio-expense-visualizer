@@ -1,4 +1,4 @@
-package jp.levtech.rookie.portfolio.dto;
+package jp.levtech.rookie.portfolio.dto.summary;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
