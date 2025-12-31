@@ -1,8 +1,5 @@
 'use strict';
 
-//Chartのインスタンスを入れる変数
-let categoryPieChart = null;
-
 document.addEventListener('DOMContentLoaded',() => {
 	fetch('/api/graphs/category-amounts')
 		//レスポンスされたHTTP情報をチェック
@@ -14,9 +11,9 @@ document.addEventListener('DOMContentLoaded',() => {
 		.then(data => {
 			const labels = data.map(d => d.categoryName);
 			const values = data.map(d => d.totalAmount);
-			const ctx = document.getElementById('categoryPieChart');
-			//Chart.jsのグラフを新規作成
-			categoryPieChart = new Chart(ctx, {
+			const pie = document.getElementById('categoryPieChart');
+			//Chart.jsのグラフを作成
+			new Chart(pie, {
 				type: 'pie', //円グラフを指定
 				data: { labels, datasets: [{ data: values}] },
 				options: {

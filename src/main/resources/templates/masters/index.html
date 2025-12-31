@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>マスタ管理</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>マスタ管理</h1>
-<ul>
-  <li th:each="t : ${types}">
-    <a th:href="@{/masters/{type}(type=${t.path})}"
-       th:text="${t.label}">master</a>
-  </li>
-</ul>
-<p>
-    <a href="/">ホームに戻る</a>
-</p>
+<div class="container">
+
+    <h1>マスタ管理</h1>
+
+    <section class="card master-index">
+        <h2>管理対象マスタ</h2>
+
+        <ul class="master-list">
+            <li th:each="t : ${types}">
+                <a th:href="@{/masters/{type}(type=${t.path})}"
+                   th:text="${t.label}">
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <p class="back-link">
+        <a th:href="@{/}">← ダッシュボードへ戻る</a>
+    </p>
+
+</div>
 </body>
 </html>

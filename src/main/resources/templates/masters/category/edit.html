@@ -1,20 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>カテゴリ編集</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<p><a th:href="@{/masters/category}">カテゴリ一覧へ戻る</a></p>
-<form method="post"
-      th:action="@{/masters/category/{id}/update(id=${category.id})}">
-    <input type="text" name="categoryName"
-           th:value="${category.name}">
-    <button type="submit">更新</button>
-</form>
+<div class="container">
 
-<p th:if="${successMessage}" th:text="${successMessage}"></p>
-<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+    <h1>カテゴリ編集</h1>
 
+    <section class="card form-card">
+        <h2>カテゴリ情報</h2>
+
+        <form method="post"
+              th:action="@{/masters/category/{id}/update(id=${category.id})}">
+            <div class="form-row">
+                <label for="categoryName">カテゴリ名</label>
+                <input type="text"
+                       id="categoryName"
+                       name="categoryName"
+                       th:value="${category.name}"
+                       required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">更新</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ステータス -->
+    <section class="card status-card">
+        <h2>ステータス</h2>
+
+        <p th:if="${successMessage}"
+           th:text="${successMessage}"
+           class="status-message success">
+        </p>
+
+        <p th:if="${errorMessage}"
+           th:text="${errorMessage}"
+           class="status-message error">
+        </p>
+
+        <p th:if="${successMessage == null and errorMessage == null}"
+           class="status-message">
+            未実行
+        </p>
+    </section>
+
+    <p class="back-link">
+        <a th:href="@{/masters/category}">← カテゴリ一覧へ戻る</a>
+    </p>
+
+</div>
 </body>
 </html>

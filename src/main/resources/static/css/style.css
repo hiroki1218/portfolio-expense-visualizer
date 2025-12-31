@@ -1,0 +1,445 @@
+/* ===== 全体 ===== */
+body {
+    margin: 0;
+    font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif;
+    background-color: #f5f6f8;
+    color: #374151;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+h1, h2 {
+	font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.title {
+	font-size: 40px;
+}
+
+
+/* ===== カード ===== */
+.card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.top-row {
+	display: flex;
+	gap: 24px;
+	margin-bottom: 30px;
+}
+
+/* ===== メニュー ===== */
+.menu {
+	flex: 1;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-list li {
+    margin-bottom: 8px;
+}
+
+.menu-list a {
+    text-decoration: none;
+    color: #3b82f6;
+}
+
+.menu-list a:hover {
+    text-decoration: underline;
+}
+
+/* ===== サマリー + ダッシュボード ===== */
+.summary,
+.dashboard {
+	display: flex;
+	flex-direction: column;
+}
+
+.summary > :not(h2),
+.dashboard > canvas {
+    margin-top: auto;
+}
+
+/* ===== ダッシュボード ===== */
+.dashboard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===== グラフ ===== */
+#categoryBarChart {
+    margin-bottom: 12px;
+    height: 320px
+}
+
+#categoryPieChart {
+    transform: translateX(-16px);
+}
+
+/* ===== サマリー ===== */
+.summary {
+    flex: 2;
+}
+
+/* ===== フォーム・ボタン ===== */
+input[type="text"],
+select {
+    padding: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3b82f6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+/* ===== テーブル ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #e5e7eb;
+    padding: 8px;
+}
+
+th {
+    background-color: #f3f4f6;
+}
+
+/* ===== CSV取り込み ===== */
+.csv-card {
+    max-width: 640px;
+    margin-bottom: 24px;
+}
+
+.csv-description {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.csv-actions {
+    margin-top: 16px;
+}
+
+.csv-status {
+    max-width: 640px;
+}
+
+.status-message {
+    font-size: 14px;
+    color: #374151;
+}
+
+.status-message.success {
+    color: #16a34a;
+    font-weight: 500;
+}
+
+.back-link {
+    margin-top: 24px;
+}
+
+.back-link a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
+
+/* ===== マスタ管理（一覧入口） ===== */
+.master-index {
+    max-width: 640px;
+}
+
+.master-list {
+    list-style: none;
+    padding: 0;
+}
+
+.master-list li {
+    margin-bottom: 12px;
+}
+
+.master-list a {
+    font-weight: 500;
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.master-list a:hover {
+    text-decoration: underline;
+}
+
+/* ===== マスタ管理：ツールバー ===== */
+.master-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.master-description {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* ===== プライマリボタン ===== */
+.button-primary {
+    padding: 8px 14px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.button-primary:hover {
+    background-color: #2563eb;
+}
+
+/* ===== マスタテーブル ===== */
+.master-table {
+    overflow-x: auto;
+}
+
+.master-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.master-table th,
+.master-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* 列幅指定 */
+.col-no {
+    width: 10px;
+    text-align: center;
+}
+
+.col-name {
+    width: 150px;
+}
+
+.col-category {
+    width: 25%;
+}
+
+.col-action {
+    width: 20px;
+    text-align: center;
+}
+
+.col-action-center {
+    text-align: center;
+}
+
+/* カテゴリ更新フォーム */
+.category-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.category-form select {
+    width: 300px;
+}
+
+/* 削除リンク風ボタン */
+.link-button {
+    all: unset;
+    color: #ef4444;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ===== カテゴリ追加・編集フォーム ===== */
+.category-form-card {
+    max-width: 520px;
+}
+
+.form-description {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form-row label {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.form-row input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* ===== フォームアクション ===== */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* ===== ボタンバリエーション ===== */
+.button-primary {
+    padding: 8px 16px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.button-primary:hover {
+    background-color: #2563eb;
+}
+
+.button-secondary {
+    padding: 8px 16px;
+    background-color: #e5e7eb;
+    color: #374151;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.button-secondary:hover {
+    background-color: #d1d5db;
+}
+
+.button-danger {
+    padding: 8px 16px;
+    background-color: #ef4444;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.button-danger:hover {
+    background-color: #dc2626;
+}
+
+/* ===== フォーム共通 ===== */
+.form-card {
+    max-width: 520px;
+    margin-bottom: 24px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-row label {
+    font-size: 14px;
+    color: #374151;
+}
+
+.form-row input {
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.form-actions {
+    margin-top: 16px;
+}
+
+/* ===== ステータス ===== */
+.status-card {
+    max-width: 520px;
+}
+
+.status-message {
+    font-size: 14px;
+    color: #374151;
+}
+
+.status-message.success {
+    color: #16a34a;
+    font-weight: 500;
+}
+
+.status-message.error {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+/* ===== 折れ線グラフ ===== */
+.line-chart-card {
+    max-width: 900px;
+}
+
+.chart-description {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+/* グラフ表示エリア */
+.line-chart-wrapper {
+    width: 100%;
+}
+
+/* Chart.js 用 */
+#lineChart,
+#monthlyLineChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 900px) {
+    .dashboard-row {
+        flex-direction: column;
+    }
+}

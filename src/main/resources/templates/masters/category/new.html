@@ -1,21 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>カテゴリ新規追加</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div class="container">
 
+    <h1>カテゴリ新規追加</h1>
 
-<form method="post" th:action="@{/masters/category/create}">
-    <input type="text" name="categoryName">
-    <button type="submit">登録</button>
-</form>
+    <section class="card form-card">
+        <h2>カテゴリ情報</h2>
 
+        <form method="post" th:action="@{/masters/category/create}">
+            <div class="form-row">
+                <label for="categoryName">カテゴリ名</label>
+                <input type="text"
+                       id="categoryName"
+                       name="categoryName"
+                       required>
+            </div>
 
-<p><a th:href="@{/masters/category}">カテゴリ一覧へ戻る</a></p>
-<p th:if="${successMessage}" th:text="${successMessage}"></p>
-<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+            <div class="form-actions">
+                <button type="submit">登録</button>
+            </div>
+        </form>
+    </section>
 
+    <!-- ステータス表示 -->
+    <section class="card status-card">
+        <h2>ステータス</h2>
+
+        <p th:if="${successMessage}"
+           th:text="${successMessage}"
+           class="status-message success">
+        </p>
+
+        <p th:if="${errorMessage}"
+           th:text="${errorMessage}"
+           class="status-message error">
+        </p>
+
+        <p th:if="${successMessage == null and errorMessage == null}"
+           class="status-message">
+            未実行
+        </p>
+    </section>
+
+    <p class="back-link">
+        <a th:href="@{/masters/category}">← カテゴリ一覧へ戻る</a>
+    </p>
+
+</div>
 </body>
 </html>

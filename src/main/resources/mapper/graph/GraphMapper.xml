@@ -3,14 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="jp.levtech.rookie.portfolio.repository.graph.GraphMapper">
+<mapper namespace="jp.hiroki.rookie.portfolio.repository.graph.GraphMapper">
 
-	<select id="categoryAmounts" resultType="jp.levtech.rookie.portfolio.dto.graph.CategoryAmountDto">
+	<select id="categoryAmounts" resultType="jp.hiroki.rookie.portfolio.dto.graph.CategoryAmountDto">
 		SELECT
 			cm.category_name AS categoryName,
 			SUM(total.amount) AS totalAmount
 		FROM(
-			-- 銀行支出
+			/* -- 銀行支出 */
 			SELECT
 				category_id,
 				withdrawal_amount AS amount,
@@ -18,7 +18,7 @@
 			FROM mufg_bank_transaction
 			WHERE withdrawal_amount IS NOT NULL AND summary != '口座振替７'
 			UNION ALL
-			-- クレカ支出
+			/* -- クレカ支出 */
 			SELECT
 				category_id,
 				amount_yen AS amount,
@@ -27,9 +27,96 @@
 			) total
 		JOIN category_master cm
 			ON cm.id = total.category_id
-		WHERE  total.transaction_date BETWEEN #{fromDate} AND #{toDate}
-		GROUP BY cm.category_name
+		WHERE  total.transaction_date BETWEEN #{currentFrom} AND #{currentTo}
+		GROUP BY cm.id, cm.category_name
 		ORDER BY totalAmount DESC
+	</select>
+
+	<select id="categoryCompare" resultType="jp.hiroki.rookie.portfolio.dto.graph.CategoryCompareDto">
+	SELECT
+		COALESCE(cur.category_name, pre.category_name) AS categoryName,
+		COALESCE(pre.total_amount, 0) AS previousTotalAmount,
+		COALESCE(cur.total_amount, 0) AS currentTotalAmount
+	FROM(
+		/* -- =====前月カテゴリ別合計===== */
+		SELECT
+			cm.id AS category_id,
+			cm.category_name,
+			SUM(t.amount) AS total_amount
+		FROM(
+		 	/* --銀行 */
+		 	SELECT
+		 		category_id,
+		 		withdrawal_amount AS amount
+		 	FROM mufg_bank_transaction
+		 	WHERE withdrawal_amount IS NOT NULL
+		 	AND summary != '口座振替７'
+		 	AND transaction_date BETWEEN #{previousFrom} AND #{previousTo}
+		 	/* --合算(銀行+クレカ) */
+		 	UNION ALL
+			/* --クレカ */
+			SELECT
+				category_id,
+				amount_yen AS amount
+			FROM mufg_credit_transaction
+			WHERE payment_date BETWEEN #{previousFrom} AND #{previousTo}
+		) t
+		JOIN category_master cm
+			ON cm.id = t.category_id
+		GROUP BY cm.id, cm.category_name
+	)pre
+	/* -- ==2つのテーブルを結合(pre + curに存在するカテゴリ)== */
+	FULL OUTER JOIN (
+		/* =====当月カテゴリ別合計===== */
+		SELECT
+			cm.id AS category_id,
+			cm.category_name,
+			SUM(t.amount) AS total_amount
+		FROM(
+		 	/* --銀行(当月) */
+		 	SELECT
+		 		category_id,
+		 		withdrawal_amount AS amount
+		 	FROM mufg_bank_transaction
+		 	WHERE withdrawal_amount IS NOT NULL
+		 	AND summary != '口座振替７'
+		 	AND transaction_date BETWEEN #{currentFrom} AND #{currentTo}
+		 	/* --合算(銀行+クレカ) */
+		 	UNION ALL
+			/* --クレカ(当月) */
+			SELECT
+				category_id,
+				amount_yen AS amount
+			FROM mufg_credit_transaction
+			WHERE payment_date BETWEEN #{currentFrom} AND #{currentTo}
+		) t
+		JOIN category_master cm
+			ON cm.id = t.category_id
+		GROUP BY cm.id, cm.category_name
+	)cur
+	ON pre.category_id = cur.category_id
+	ORDER BY currentTotalAmount DESC
+	</select>
+
+	<select id="monthlyAmount" resultType="jp.hiroki.rookie.portfolio.dto.graph.MonthlyAmountDto">
+	SELECT
+		month,
+		SUM(amount) AS totalAmount
+	FROM(
+		SELECT
+			date_trunc('month', transaction_date)::date AS month,
+			withdrawal_amount AS amount
+		FROM mufg_bank_transaction
+		WHERE withdrawal_amount IS NOT NULL
+		AND summary != '口座振替７'
+	UNION ALL
+		SELECT
+			date_trunc('month', payment_date)::date AS month,
+			amount_yen AS amount
+		FROM mufg_credit_transaction
+	) t
+	GROUP BY month
+	ORDER BY month ASC
 	</select>
 
 </mapper>

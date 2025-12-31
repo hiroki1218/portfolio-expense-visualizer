@@ -2,38 +2,65 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CSVインポート</title>
+    <title>CSV取り込み</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>CSVファイル取り込み</h1>
+<div class="container">
 
-<form th:action="@{/csv/import}" method="post" enctype="multipart/form-data">
+    <h1>CSV取り込み</h1>
 
-    <input id="csvFiles" type="file" name="files" accept=".csv" multiple>
-    <button type="submit">アップロード</button>
+    <section class="card csv-card">
+        <h2>CSVファイル選択</h2>
 
-</form>
+        <p class="csv-description">
+            銀行・クレジットカードのCSVファイルをアップロードしてください。<br>
+            一度にアップロードできるファイルは最大2件までです。
+        </p>
 
-<p>
-    ステータス：
-    <span th:if="${statusMessage != null}"
-          th:text="${statusMessage}">ここにメッセージ</span>
-    <span th:if="${statusMessage == null}">
-        未実行
-    </span>
-</p>
+        <form th:action="@{/csv/import}" method="post" enctype="multipart/form-data">
+            <input
+                type="file"
+                id="csvFiles"
+                name="files"
+                accept=".csv"
+                multiple
+            >
 
-<p>
-    <a href="/">ホームに戻る</a>
-</p>
+            <div class="csv-actions">
+                <button type="submit">アップロード</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card csv-status">
+        <h2>ステータス</h2>
+
+        <p th:if="${statusMessage != null}"
+           th:text="${statusMessage}"
+           class="status-message success">
+            ステータスメッセージ
+        </p>
+
+        <p th:if="${statusMessage == null}"
+           class="status-message">
+            未実行
+        </p>
+    </section>
+
+    <p class="back-link">
+        <a th:href="@{/}">← ダッシュボードへ戻る</a>
+    </p>
+
+</div>
 
 <script>
-    document.getElementById('csvFiles').addEventListener('change', function (e) {
-        if (this.files.length > 2) {
-            alert('一度にアップロードできるファイルは2つまでです。');
-            this.value = ''; // 選択をリセット
-        }
-    });
+document.getElementById('csvFiles').addEventListener('change', function () {
+    if (this.files.length > 2) {
+        alert('一度にアップロードできるファイルは2つまでです。');
+        this.value = '';
+    }
+});
 </script>
 
 </body>

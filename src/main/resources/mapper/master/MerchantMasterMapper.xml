@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="jp.levtech.rookie.portfolio.repository.master.MerchantMasterMapper">
+<mapper namespace="jp.hiroki.rookie.portfolio.repository.master.MerchantMasterMapper">
 
-	<select id="list" resultType="jp.levtech.rookie.portfolio.dto.master.MasterDto">
+	<select id="list" resultType="jp.hiroki.rookie.portfolio.dto.master.MasterDto">
 	SELECT
 		mm.id,
 		mm.merchant_name AS name,
