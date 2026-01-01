@@ -4,18 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
 @Data
 public class MufgBankTransactionDto {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // 主キー（自動採番）
+	
+	private Long id;
 	// 1. 日付（取引日）
 	private LocalDate transactionDate;
 	// 2. 摘要（カテゴリ）
