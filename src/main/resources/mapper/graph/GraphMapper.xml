@@ -8,7 +8,7 @@
 	<select id="categoryAmounts" resultType="jp.hiroki.rookie.portfolio.dto.graph.CategoryAmountDto">
 		SELECT
 			cm.category_name AS categoryName,
-			SUM(total.amount) AS totalAmount
+			COALESCE(SUM(total.amount), 0) AS totalAmount
 		FROM(
 			/* -- 銀行支出 */
 			SELECT
@@ -42,7 +42,7 @@
 		SELECT
 			cm.id AS category_id,
 			cm.category_name,
-			SUM(t.amount) AS total_amount
+			COALESCE(SUM(t.amount), 0) AS total_amount
 		FROM(
 		 	/* --銀行 */
 		 	SELECT
@@ -71,7 +71,7 @@
 		SELECT
 			cm.id AS category_id,
 			cm.category_name,
-			SUM(t.amount) AS total_amount
+			COALESCE(SUM(t.amount), 0) AS total_amount
 		FROM(
 		 	/* --銀行(当月) */
 		 	SELECT
@@ -101,7 +101,7 @@
 	<select id="monthlyAmount" resultType="jp.hiroki.rookie.portfolio.dto.graph.MonthlyAmountDto">
 	SELECT
 		month,
-		SUM(amount) AS totalAmount
+		COALESCE(SUM(amount), 0) AS totalAmount
 	FROM(
 		SELECT
 			date_trunc('month', transaction_date)::date AS month,

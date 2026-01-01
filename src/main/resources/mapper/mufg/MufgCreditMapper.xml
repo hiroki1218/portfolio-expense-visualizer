@@ -48,7 +48,7 @@
 </insert>
 
 <select id="sumSpending" resultType="java.math.BigDecimal">
-	SELECT SUM(amount_yen)
+	SELECT COALESCE(SUM(amount_yen), 0)
 	FROM mufg_credit_transaction
 	WHERE usage_date BETWEEN #{start} AND #{end}
 </select>

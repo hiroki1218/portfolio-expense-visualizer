@@ -54,7 +54,7 @@
 
 
 <select id="sumSpending" resultType="java.math.BigDecimal">
-	SELECT SUM(withdrawal_amount)
+	SELECT COALESCE(SUM(withdrawal_amount), 0)
 	FROM mufg_bank_transaction
 	WHERE withdrawal_amount > 0
 	AND transaction_date BETWEEN #{start} AND #{end}
