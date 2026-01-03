@@ -38,7 +38,10 @@ public class MonthlySummaryServiceImpl implements MonthlySummaryService {
 		summary.setCurrentMonthTotal(currentTotal);
 		summary.setPreviousMonthTotal(previousTotal);
 		
-		if (currentTotal != BigDecimal.ZERO && previousTotal != BigDecimal.ZERO) {
+		boolean hasCurrent = currentTotal != null && currentTotal.compareTo(BigDecimal.ZERO) != 0;
+		boolean hasPrev = previousTotal != null && previousTotal.compareTo(BigDecimal.ZERO) != 0;
+		
+		if (hasCurrent && hasPrev) {
 			BigDecimal diffAmount = currentTotal.subtract(previousTotal);
 			//増減率(±)
 			BigDecimal diffRate = diffAmount.divide(previousTotal, 4, RoundingMode.HALF_UP);
