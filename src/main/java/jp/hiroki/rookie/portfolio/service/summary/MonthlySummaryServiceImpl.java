@@ -101,7 +101,7 @@ public class MonthlySummaryServiceImpl implements MonthlySummaryService {
 		String previousMonthTotal = summary.getPreviousMonthTotal() != null
 				&& summary.getPreviousMonthTotal().compareTo(BigDecimal.ZERO) != 0
 						? NumberFormat.getNumberInstance(Locale.JAPAN).format(summary.getPreviousMonthTotal()) + "円"
-						: "ー&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;※ "
+						: "ー&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ※ "
 								+ previousMonth + "のデータがインポートされていません";
 		
 		viewLabel.setCurrentMonthLabel(currentMonth);
