@@ -41,11 +41,13 @@ public class CsvImportController {
 	// 2. ファイル受け取り→結果メッセージを画面に返す
 	@PostMapping("/import")
 	public String importCsv(@RequestParam("files") MultipartFile[] files,
-			Model model) { // ★ Model を引数に追加
+			Model model) {
 		
 		if (files == null || files.length != 2) {
-			model.addAttribute("statusMessage",
-					"エラー：CSV ファイルは必ず 2 つアップロードしてください。");
+			model.addAttribute("errorMessage", "CSV ファイルは必ず 2 つアップロードしてください。");
+			return "import";
+		} else if (files.length > 2) {
+			model.addAttribute("errorMessage", "一度にアップロードできるファイルは2つまでです。");
 			return "import";
 		}
 		
@@ -64,15 +66,13 @@ public class CsvImportController {
 					creditCsv = file;
 				}
 			} catch (Exception e) {
-				model.addAttribute("statusMessage",
-						"エラー：対応していない CSV → " + file.getOriginalFilename());
+				model.addAttribute("errorMessage", "対応していない CSV → " + file.getOriginalFilename());
 				return "import";
 			}
 		}
 		
 		if (bankCsv == null || creditCsv == null) {
-			model.addAttribute("statusMessage",
-					"エラー：銀行 CSV とクレカ CSV の両方をアップロードしてください。");
+			model.addAttribute("errorMessage", "銀行 CSV とクレカ CSV の両方をアップロードしてください。");
 			return "import";
 		}
 		
@@ -81,12 +81,11 @@ public class CsvImportController {
 			importCsvService.importCsv(creditCsv);
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("statusMessage",
-					"エラー：CSV の取り込みに失敗しました。");
+			model.addAttribute("errorMessage", "CSV の取り込みに失敗しました。");
 			return "import";
 		}
 		
-		model.addAttribute("statusMessage", "正常に取り込みが完了しました。");
+		model.addAttribute("successMessage", "正常に取り込みが完了しました。");
 		return "import";
 	}
 }

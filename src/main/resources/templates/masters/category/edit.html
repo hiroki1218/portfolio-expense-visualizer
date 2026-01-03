@@ -7,53 +7,27 @@
 </head>
 <body>
 <div class="container">
-
-    <h1>カテゴリ編集</h1>
-
-    <section class="card form-card">
-        <h2>カテゴリ情報</h2>
-
-        <form method="post"
-              th:action="@{/masters/category/{id}/update(id=${category.id})}">
-            <div class="form-row">
-                <label for="categoryName">カテゴリ名</label>
-                <input type="text"
-                       id="categoryName"
-                       name="categoryName"
-                       th:value="${category.name}"
-                       required>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit">更新</button>
-            </div>
-        </form>
-    </section>
-
-    <!-- ステータス -->
-    <section class="card status-card">
-        <h2>ステータス</h2>
-
-        <p th:if="${successMessage}"
-           th:text="${successMessage}"
-           class="status-message success">
-        </p>
-
-        <p th:if="${errorMessage}"
-           th:text="${errorMessage}"
-           class="status-message error">
-        </p>
-
-        <p th:if="${successMessage == null and errorMessage == null}"
-           class="status-message">
-            未実行
-        </p>
-    </section>
-
-    <p class="back-link">
-        <a th:href="@{/masters/category}">← カテゴリ一覧へ戻る</a>
-    </p>
-
+	<h1>カテゴリ編集</h1>
+	<section class="card form-card">
+		<h2>カテゴリ情報</h2>
+		<form method="post" th:action="@{/masters/category/{id}/update(id=${category.id})}">
+			<div class="form-row">
+				<label for="categoryName">カテゴリ名</label>
+				<input type="text" id="categoryName" name="categoryName" th:value="${category.name}" required>
+			</div>
+			<div class="form-actions">
+				<button type="submit">更新</button>
+			</div>
+		</form>
+	</section>
+	<section class="card status-card">
+		<h2>ステータス</h2>
+		<p th:if="${successMessage}" th:text="'成功：' + ${successMessage}" class="status-message success"></p>
+		<p th:if="${errorMessage}" th:text="'失敗：' + ${errorMessage}" class="status-message error"></p>
+	</section>
+	<p class="back-link">
+		<a th:href="@{/masters/category}">← カテゴリ一覧へ戻る</a>
+	</p>
 </div>
 </body>
 </html>

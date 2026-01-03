@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 					}],
 				},
 				options: {
+					maintainAspectRatio: false,
 					responsive: true,
 					animation: false,
 					scales: {

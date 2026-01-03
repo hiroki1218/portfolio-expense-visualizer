@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>家計簿</title>
+    <title>ポートフォリオ -支出可視化-</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -23,45 +23,21 @@
 				</ul>
 			</section>
 				<section class="card summary">
-						<h2>サマリー</h2>
-						<p>対象月：<span th:text="${summary.month}"></span></p>
-					<p>今月の支出：
-						<span th:text="${summary.thisMonthTotal == null
-							? '－'
-							: #numbers.formatInteger(summary.thisMonthTotal, 1, 'COMMA')}">
-						</span>円
-					</p>
-					<p>前月の支出：
-						<span th:text="${summary.prevMonthTotal == null
-							? '－'
-							: #numbers.formatInteger(summary.prevMonthTotal, 1, 'COMMA')}">
-						</span>円
-					</p>
-					<p>前月との差額：
-						<span th:text="${summary.diffAmount == null
-							? '－'
-							: #numbers.formatInteger(summary.diffAmount, 1, 'COMMA')}">
-						</span>円
-					</p>
-					<p>前月比：
-						<span th:text="${summary.diffRate == null
-							? '－'
-							: #numbers.formatDecimal(summary.diffRate * 100, 1, 1)}">
-						</span>%
-						<span th:if="${summary.diffRate != null}">
-							<span th:if="${summary.diffRate > 0}">📈</span>
-							<span th:if="${summary.diffRate < 0}">📉</span>
-						</span>
-					</p>
+					<h2>サマリー</h2>
+					<p>対象月：<span th:text="${Label.currentMonthLabel}"></span></p>
+					<p>今月の支出：<span th:utext="${Label.currentMonthTotalLabel}"></span></p>
+					<p>前月の支出：<span th:utext="${Label.previousMonthTotalLabel}"></span></p>
+					<p>前月との差額：<span th:utext="${Label.diffAmountLabel}"></span></p>
+					<p>前月比：<span th:text="${Label.diffPercentLabel}"></span></p>
 				</section>
 		</div>
 		<div class="dashboard-row">
 				<section class="card dashboard">
-					<h2>カテゴリ別 割合</h2>
+					<h2>カテゴリ別 -割合-</h2>
 					<canvas id="categoryPieChart"></canvas>
 				</section>
 				<section class="card dashboard">
-					<h2>カテゴリ別 前月比</h2>
+					<h2>カテゴリ別 -前月比-</h2>
 					<canvas id="categoryBarChart"></canvas>
 			</section>
 		</div>

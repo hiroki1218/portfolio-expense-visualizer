@@ -56,7 +56,7 @@ public class CategoryMasterController {
 			RedirectAttributes redirectAttributes) {
 		try {
 			categoryMasterService.update(id, categoryName);
-			redirectAttributes.addFlashAttribute("successMessage", "更新しました");
+			redirectAttributes.addFlashAttribute("successMessage", "正常に更新出来ました");
 		} catch (IllegalArgumentException e) {
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 		}
@@ -70,6 +70,7 @@ public class CategoryMasterController {
 			RedirectAttributes redirectAttributes) {
 		try {
 			categoryMasterService.delete(id);
+			redirectAttributes.addFlashAttribute("successMessage", "正常に削除出来ました");
 		} catch (IllegalArgumentException e) {
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 		}

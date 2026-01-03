@@ -45,7 +45,7 @@ public class GraphService {
 	
 	//当月の開始日/終了日を返す
 	private TargetRange getCurrentMonthRange() {
-		YearMonth current = YearMonth.now().minusMonths(1);//取り敢えず当月を前月に修正
+		YearMonth current = YearMonth.now();
 		LocalDate currentFrom = current.atDay(1);
 		LocalDate currentTo = current.atEndOfMonth();
 		

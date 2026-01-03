@@ -1,117 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>マスタ一覧</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<title>マスタ一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
-<div class="container">
-
-    <h1 th:text="${type.label}"></h1>
-    <div class="master-toolbar">
-        <div class="master-toolbar-left">
-            <p class="master-description"></p>
-        </div>
-
-        <div class="master-toolbar-right">
-            <a th:if="${type.path} == 'category'"
-               th:href="@{/masters/category/new}"
-               class="button-primary">
-                ＋ 新規カテゴリ追加
-            </a>
-        </div>
-    </div>
-
-    <!-- 一覧テーブル -->
-    <section class="card master-table">
-        <table>
-            <thead>
-            <tr>
-                <th class="col-no">No</th>
-                <th class="col-name"
-                    th:text="${type.path} == 'category' ? 'カテゴリ名' : '名称'">
-                </th>
-                <th class="col-category"
-                    th:text="${type.path} == 'category' ? '操作' : 'カテゴリ'">
-                </th>
-                <th class="col-action"
-                    th:if="${type.path} != 'category'">
-                    操作
-                </th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="r, stat : ${rows}">
-                <td class="col-no" th:text="${stat.count}"></td>
-
-                <td class="col-name" th:text="${r.name}"></td>
-
-                <!-- カテゴリ選択（カテゴリ以外） -->
-                <td class="col-category" th:if="${type.path} != 'category'">
-                    <form method="post"
-                          th:action="@{/masters/{type}/update(type=${type.path})}"
-                          class="category-form">
-                        <input type="hidden" name="id" th:value="${r.id}">
-                        <select name="categoryId">
-                            <option th:each="c : ${categories}"
-                                    th:value="${c.id}"
-                                    th:text="${c.name}"
-                                    th:selected="${c.id == r.categoryId}">
-                            </option>
-                        </select>
-                </td>
-
-                <td class="col-action" th:if="${type.path} != 'category'">
-                        <button type="submit">更新</button>
-                    </form>
-                </td>
-
-                <!-- カテゴリマスタ専用 -->
-                <td class="col-category col-action-center"
-                    th:if="${type.path} == 'category'">
-                    <a th:href="@{/masters/category/{id}/edit(id=${r.id})}">
-                        編集
-                    </a>
-                    /
-                    <form th:action="@{/masters/category/{id}/delete(id=${r.id})}"
-                          method="post"
-                          style="display:inline">
-                        <button type="submit"
-                                class="link-button"
-                                onclick="return confirm('削除しますか？')">
-                            削除
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-       <section class="card status-card">
-    <h2>ステータス</h2>
-
-    <p th:if="${successMessage}"
-       th:text="${successMessage}"
-       class="status-message success">
-    </p>
-
-    <p th:if="${errorMessage}"
-       th:text="${errorMessage}"
-       class="status-message error">
-    </p>
-</section>
-
-
-    </section>
-
-
-
-    <p class="back-link">
-        <a th:href="@{/masters}">← マスタ一覧へ戻る</a>
-    </p>
-
+	<div class="container">
+		<h1 th:text="${type.label}"></h1>
+		<div class="master-toolbar">
+		<div class="master-toolbar-left">
+			<p class="master-description"></p>
+		</div>
+		<div class="master-toolbar-right">
+			<a th:if="${type.path} == 'category'"
+				th:href="@{/masters/category/new}"
+				class="button-primary">＋ 新規カテゴリ追加
+			</a>
+		</div>
+	</div>
+	<section class="card master-table">
+		<table>
+			<thead>
+				<tr>
+					<th class="col-no">No</th>
+					<th class="col-name" th:text="${type.path} == 'category' ? 'カテゴリ名' : '名称'"></th>
+					<th class="col-category" th:text="${type.path} == 'category' ? '操作' : 'カテゴリ'"></th>
+					<th class="col-action" th:if="${type.path} != 'category'"> 操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr th:each="r, stat : ${rows}">
+				<td class="col-no" th:text="${stat.count}"></td>
+				<td class="col-name" th:text="${r.name}"></td>
+				<td class="col-category" th:if="${type.path} != 'category'">
+					<form method="post"
+						th:action="@{/masters/{type}/update(type=${type.path})}"
+						class="category-form">
+						<input type="hidden" name="id" th:value="${r.id}">
+						<select name="categoryId">
+							<option th:each="c : ${categories}"
+								th:value="${c.id}"
+								th:text="${c.name}"
+								th:selected="${c.id == r.categoryId}">
+							</option>
+						</select>
+				</td>
+				<td class="col-action" th:if="${type.path} != 'category'">
+					<button type="submit">更新</button>
+					</form>
+				</td>
+				<td class="col-category col-action-center" th:if="${type.path} == 'category'">
+					<a th:href="@{/masters/category/{id}/edit(id=${r.id})}">編集</a>/
+					<form th:action="@{/masters/category/{id}/delete(id=${r.id})}"
+						method="post"
+						style="display:inline">
+						<button type="submit"
+							class="link-button"
+							onclick="return confirm('削除しますか？')">削除
+						</button>
+					</form>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</section>
+	<section class="card status-card">
+		<h2>ステータス</h2>
+		<p th:if="${successMessage}" th:text="'成功：' + ${successMessage}" class="status-message success"></p>
+		<p th:if="${errorMessage}" th:text="'失敗：' + ${errorMessage}" class="status-message error"></p>
+	</section>
+	<p class="back-link"><a th:href="@{/masters}">← マスタ一覧へ戻る</a></p>
 </div>
 </body>
 </html>

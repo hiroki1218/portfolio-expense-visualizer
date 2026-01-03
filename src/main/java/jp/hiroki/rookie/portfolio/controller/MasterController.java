@@ -54,6 +54,7 @@ public class MasterController {
 		
 		try {
 			masterService.update(masterType, id, categoryId);
+			redirectAttributes.addFlashAttribute("successMessage", "正常に更新出来ました");
 		} catch (IllegalArgumentException e) {
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 		}

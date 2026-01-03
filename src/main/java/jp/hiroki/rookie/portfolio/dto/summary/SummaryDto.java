@@ -6,12 +6,14 @@ import java.time.YearMonth;
 import lombok.Data;
 
 @Data
-public class MonthlySummaryDto {
+public class SummaryDto {
 	
-	private YearMonth month;
-	private BigDecimal thisMonthTotal;
-	private BigDecimal prevMonthTotal;
+	private YearMonth currentMonth;
+	private BigDecimal currentMonthTotal;
+	private BigDecimal previousMonthTotal;
 	private BigDecimal diffAmount;
 	private BigDecimal diffRate;
+	private BigDecimal diffPercent;
+	private BigDecimal ratio;
 	
 }

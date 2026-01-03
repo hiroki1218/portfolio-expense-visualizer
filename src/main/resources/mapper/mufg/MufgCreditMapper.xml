@@ -47,11 +47,4 @@
 	ON CONFLICT DO NOTHING
 </insert>
 
-<select id="sumSpending" resultType="java.math.BigDecimal">
-	SELECT COALESCE(SUM(amount_yen), 0)
-	FROM mufg_credit_transaction
-	WHERE usage_date BETWEEN #{start} AND #{end}
-</select>
-
-
 </mapper>

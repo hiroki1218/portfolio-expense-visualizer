@@ -12,8 +12,7 @@ import jp.hiroki.rookie.portfolio.dto.mufg.MufgBankTransactionDto;
 @Mapper
 public interface MufgBankMapper {
 	
-	// 複数件保存（CSV用）
 	void batchInsert(@Param("entities") List<MufgBankTransactionDto> entities);
 	
-	BigDecimal sumSpending(@Param("start") LocalDate start, @Param("end") LocalDate end);
+	BigDecimal getAmountTotal(@Param("start") LocalDate start, @Param("end") LocalDate end);
 }

@@ -23,9 +23,8 @@ public class MufgBankRepository {
 		mapper.batchInsert(entities);
 	}
 	
-	//月次サマリ
-	public BigDecimal sumSpending(LocalDate start, LocalDate end) {
-		return mapper.sumSpending(start, end);
+	public BigDecimal getAmountTotal(LocalDate start, LocalDate end) {
+		return mapper.getAmountTotal(start, end);
 	}
 	
 }

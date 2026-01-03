@@ -7,25 +7,16 @@
 </head>
 <body>
 <div class="container">
-
-    <h1>マスタ管理</h1>
-
-    <section class="card master-index">
-        <h2>管理対象マスタ</h2>
-
-        <ul class="master-list">
-            <li th:each="t : ${types}">
-                <a th:href="@{/masters/{type}(type=${t.path})}"
-                   th:text="${t.label}">
-                </a>
-            </li>
-        </ul>
-    </section>
-
-    <p class="back-link">
-        <a th:href="@{/}">← ダッシュボードへ戻る</a>
-    </p>
-
+	<h1>マスタ管理</h1>
+	<section class="card master-index">
+		<h2>管理対象マスタ</h2>
+		<ul class="master-list">
+			<li th:each="t : ${types}">
+				<a th:href="@{/masters/{type}(type=${t.path})}" th:text="${t.label}"></a>
+			</li>
+		</ul>
+	</section>
+	<p class="back-link"><a th:href="@{/}">← ダッシュボードへ戻る</a></p>
 </div>
 </body>
 </html>

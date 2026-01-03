@@ -7,61 +7,24 @@
 </head>
 <body>
 <div class="container">
-
-    <h1>CSV取り込み</h1>
-
-    <section class="card csv-card">
-        <h2>CSVファイル選択</h2>
-
-        <p class="csv-description">
-            銀行・クレジットカードのCSVファイルをアップロードしてください。<br>
-            一度にアップロードできるファイルは最大2件までです。
-        </p>
-
-        <form th:action="@{/csv/import}" method="post" enctype="multipart/form-data">
-            <input
-                type="file"
-                id="csvFiles"
-                name="files"
-                accept=".csv"
-                multiple
-            >
-
-            <div class="csv-actions">
-                <button type="submit">アップロード</button>
-            </div>
-        </form>
+	<h1>CSV取り込み</h1>
+	<section class="card csv-card">
+		<h2>CSVファイル選択</h2>
+		<p class="csv-description">
+			銀行・クレジットカードのCSVファイルをアップロードしてください。<br> 一度に２つのファイルを選択してください。
+		</p>
+		<form th:action="@{/csv/import}" method="post" enctype="multipart/form-data">
+			<input type="file" id="csvFiles" name="files" accept=".csv" multiple>
+			<div class="csv-actions"><button type="submit">アップロード</button></div>
+		</form>
     </section>
-
     <section class="card csv-status">
-        <h2>ステータス</h2>
-
-        <p th:if="${statusMessage != null}"
-           th:text="${statusMessage}"
-           class="status-message success">
-            ステータスメッセージ
-        </p>
-
-        <p th:if="${statusMessage == null}"
-           class="status-message">
-            未実行
-        </p>
-    </section>
-
-    <p class="back-link">
-        <a th:href="@{/}">← ダッシュボードへ戻る</a>
-    </p>
-
+		<h2>ステータス</h2>
+		<p th:if="${successMessage}" th:text="'成功：' + ${successMessage}" class="status-message success"></p>
+		<p th:if="${errorMessage}" th:text="'失敗：' + ${errorMessage}" class="status-message error"></p>
+	</section>
+	<p class="back-link"><a th:href="@{/}">← ダッシュボードへ戻る</a></p>
 </div>
-
-<script>
-document.getElementById('csvFiles').addEventListener('change', function () {
-    if (this.files.length > 2) {
-        alert('一度にアップロードできるファイルは2つまでです。');
-        this.value = '';
-    }
-});
-</script>
 
 </body>
 </html>
