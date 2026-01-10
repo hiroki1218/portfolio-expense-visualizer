@@ -15,6 +15,7 @@ import jp.hiroki.rookie.portfolio.service.csv.converter.credit.MufgCreditConvert
 import jp.hiroki.rookie.portfolio.service.csv.enums.CsvFormat;
 import jp.hiroki.rookie.portfolio.service.csv.parser.bank.MufgBankParser;
 import jp.hiroki.rookie.portfolio.service.csv.parser.credit.MufgCreditParser;
+import jp.hiroki.rookie.portfolio.service.master.MasterServiceImpl;
 
 @Service
 public class ImportCsvServiceImpl implements ImportCsvService {
@@ -27,6 +28,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	private final MufgCreditConverter creditConverter;
 	private final MufgBankRepository bankRepository;
 	private final MufgCreditRepository creditRepository;
+	private final MasterServiceImpl masterSyncService;
 	
 	public ImportCsvServiceImpl(
 			CsvReader csvReader,
@@ -36,7 +38,8 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 			MufgBankConverter bankConverter,
 			MufgCreditConverter creditConverter,
 			MufgBankRepository bankRepository,
-			MufgCreditRepository creditRepository) {
+			MufgCreditRepository creditRepository,
+			MasterServiceImpl masterSyncService) {
 		this.csvReader = csvReader;
 		this.csvFormatDetector = csvFormatDetector;
 		this.bankParser = bankParser;
@@ -45,6 +48,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 		this.creditConverter = creditConverter;
 		this.bankRepository = bankRepository;
 		this.creditRepository = creditRepository;
+		this.masterSyncService = masterSyncService;
 	}
 	
 	@Override
@@ -73,6 +77,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 				
 				// DB 保存
 				bankRepository.saveAll(entityList);
+				masterSyncService.syncBankMasters();
 			}
 			
 			// MUFG クレカ CSV
@@ -84,6 +89,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 						.toList();
 				
 				creditRepository.saveAll(entityList);
+				masterSyncService.syncCreditMasters();
 			}
 			}
 			

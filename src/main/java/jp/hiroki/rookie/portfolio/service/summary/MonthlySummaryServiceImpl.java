@@ -139,9 +139,9 @@ public class MonthlySummaryServiceImpl implements MonthlySummaryService {
 		String Percent = percent.toPlainString();
 		
 		if (rate.signum() > 0) {
-			return Percent + "(前月の約" + Ratio + "倍支出 -増- 📈";
+			return Percent + " (前月の約" + Ratio + "倍支出 -増- 📈)";
 		} else if (rate.signum() < 0) {
-			return Percent + "(前月の約" + Ratio + "倍支出 -減- 📉";
+			return Percent + " (前月の約" + Ratio + "倍支出 -減- 📉)";
 		} else {
 			return "    〃    ";
 		}

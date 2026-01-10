@@ -16,7 +16,6 @@ public class MufgCreditParser implements CsvParser<MufgCreditCsvDto> {
 	public List<MufgCreditCsvDto> parse(Iterable<CSVRecord> records) {
 		
 		List<MufgCreditCsvDto> creditCsvList = new ArrayList<>();
-		boolean isFirst = true;
 		
 		for (CSVRecord record : records) {
 			

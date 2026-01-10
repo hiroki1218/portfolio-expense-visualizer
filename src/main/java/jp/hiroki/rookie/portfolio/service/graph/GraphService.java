@@ -43,16 +43,16 @@ public class GraphService {
 		return graphMapper.monthlyAmount();
 	}
 	
-	//当月の開始日/終了日を返す
+	//対象月の開始日/終了日を返す
 	private TargetRange getCurrentMonthRange() {
-		YearMonth current = YearMonth.now();
+		YearMonth current = YearMonth.now().minusMonths(1);
 		LocalDate currentFrom = current.atDay(1);
 		LocalDate currentTo = current.atEndOfMonth();
 		
 		return new TargetRange(currentFrom, currentTo);
 	}
 	
-	//前月の開始日/終了日を返す
+	//対象つきの前月の開始日/終了日を返す
 	private TargetRange getPreviousMonthRange() {
 		YearMonth previous = YearMonth.now().minusMonths(2);
 		LocalDate previousFrom = previous.atDay(1);

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.hiroki.rookie.portfolio.repository.master.MasterSyncMapper">
+
+
+  <insert id="syncCreditMerchantMaster">
+    INSERT INTO mufg_credit_merchant_master (merchant_name, category_id)
+    SELECT DISTINCT btrim(t.merchant_name), 1
+    FROM mufg_credit_transaction t
+    WHERE t.merchant_name IS NOT NULL
+      AND btrim(t.merchant_name) != ''
+      AND NOT EXISTS (
+        SELECT 1
+        FROM mufg_credit_merchant_master mm
+        WHERE btrim(mm.merchant_name) = btrim(t.merchant_name)
+      )
+  </insert>
+
+  <insert id="syncBankDetailMaster">
+    INSERT INTO mufg_bank_detail_master (detail_name, category_id)
+    SELECT DISTINCT btrim(t.detail), 1
+    FROM mufg_bank_transaction t
+    WHERE t.detail IS NOT NULL
+      AND btrim(t.detail) != ''
+      AND NOT EXISTS (
+        SELECT 1
+        FROM mufg_bank_detail_master dm
+        WHERE btrim(dm.detail_name) = btrim(t.detail)
+      )
+  </insert>
+
+  <insert id="syncBankSummaryMaster">
+    INSERT INTO mufg_bank_summary_master (summary_name, category_id)
+    SELECT DISTINCT btrim(t.summary), 1
+    FROM mufg_bank_transaction t
+    WHERE t.summary IS NOT NULL
+      AND btrim(t.summary) != ''
+      AND NOT EXISTS (
+        SELECT 1
+        FROM mufg_bank_summary_master sm
+        WHERE btrim(sm.summary_name) = btrim(t.summary)
+      )
+  </insert>
+
+  <update id="syncCreditByMerchantMasterId">
+  <![CDATA[
+  UPDATE mufg_credit_transaction t
+  SET category_id = mm.category_id
+  FROM mufg_credit_merchant_master mm
+  WHERE mm.id = #{masterId}
+    AND btrim(t.merchant_name) = btrim(mm.merchant_name)
+  ]]>
+</update>
+
+<update id="syncBankByDetailMasterId">
+  <![CDATA[
+  UPDATE mufg_bank_transaction t
+  SET category_id = dm.category_id
+  FROM mufg_bank_detail_master dm
+  WHERE dm.id = #{masterId}
+    AND btrim(t.detail) = btrim(dm.detail_name)
+  ]]>
+</update>
+
+<update id="syncBankBySummaryMasterId">
+  <![CDATA[
+  UPDATE mufg_bank_transaction t
+  SET category_id = sm.category_id
+  FROM mufg_bank_summary_master sm
+  WHERE sm.id = #{masterId}
+    AND btrim(t.summary) = btrim(sm.summary_name)
+  ]]>
+</update>
+
+
+</mapper>

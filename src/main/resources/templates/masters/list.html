@@ -40,6 +40,7 @@
 						class="category-form">
 						<input type="hidden" name="id" th:value="${r.id}">
 						<select name="categoryId">
+							<option value="1" th:selected="${r.categoryId == 1}">未分類</option>
 							<option th:each="c : ${categories}"
 								th:value="${c.id}"
 								th:text="${c.name}"

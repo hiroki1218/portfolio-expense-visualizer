@@ -24,7 +24,7 @@ public class HomeController {
 		
 		YearMonth now = YearMonth.now();
 		
-		SummaryDto summary = monthlySummaryService.getSummary(now);
+		SummaryDto summary = monthlySummaryService.getSummary(now.minusMonths(1));
 		viewSummaryDto viewLabel = monthlySummaryService.viewSummary(summary);
 		
 		model.addAttribute("Label", viewLabel);

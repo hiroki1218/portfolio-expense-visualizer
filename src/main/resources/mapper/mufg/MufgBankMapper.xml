@@ -21,13 +21,13 @@
 			VALUES
 			<foreach collection="entities" item="e" separator=",">
 				(
-				#{e.transactionDate},
-				#{e.summary},
-				#{e.detail},
-				#{e.withdrawalAmount},
-				#{e.depositAmount},
-				#{e.balance},
-				#{e.createdAt}
+				#{e.transactionDate, jdbcType=DATE},
+				#{e.summary, jdbcType=VARCHAR},
+				#{e.detail, jdbcType=VARCHAR},
+				#{e.withdrawalAmount, jdbcType=NUMERIC},
+				#{e.depositAmount, jdbcType=NUMERIC},
+				#{e.balance, jdbcType=NUMERIC},
+				#{e.createdAt, jdbcType=TIMESTAMP}
 				)
 			</foreach>
 		) AS src(
@@ -58,5 +58,6 @@
 		WHERE withdrawal_amount > 0
 		AND transaction_date BETWEEN #{start} AND #{end}
 	</select>
+
 
 </mapper>

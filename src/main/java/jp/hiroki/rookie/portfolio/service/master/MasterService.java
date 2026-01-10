@@ -12,4 +12,9 @@ public interface MasterService {
 	//更新
 	public void update(MasterType type, Long id, Long categoryid);
 	
+	//同期処理
+	void syncBankMasters();
+	
+	void syncCreditMasters();
+	
 }

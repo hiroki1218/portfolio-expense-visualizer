@@ -12,7 +12,7 @@ import jp.hiroki.rookie.portfolio.service.csv.converter.CsvConverter;
 @Component
 public class MufgBankConverter implements CsvConverter<MufgBankCsvDto, MufgBankTransactionDto> {
 	
-	private static final long UNCLASSIFIED_CATEGORY_ID = 15L;
+	private static final long UNCLASSIFIED_CATEGORY_ID = 1L;
 	
 	@Override
 	public MufgBankTransactionDto toEntity(MufgBankCsvDto dto) {
